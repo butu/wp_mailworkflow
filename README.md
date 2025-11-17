@@ -1,4 +1,4 @@
-# TYPO3 extension `wp_mailqueue`
+# TYPO3 extension `wp_mailworkflow`
 
 
 This extension offers the possibility, to send mails from a defined queue.
