@@ -18,6 +18,8 @@ issues" below for what was found but intentionally left alone).
 - [x] Update `composer.json` core/testing-framework constraints for dual v13/v14 support
 - [x] Replace `MailMessage::send()` (removed in core, no `send()` method left on
       `TYPO3\CMS\Core\Mail\MailMessage` as of TYPO3 14) with `MailerInterface::send()`
+- [x] Replace removed `StandaloneView` usage in `SendQueueCommand` with the v13/v14-compatible
+      `ViewFactoryInterface` / `ViewFactoryData` API
 - [x] Migrate Extbase docblock annotations (`@Validate`, `@Cascade`, `@IgnoreValidation`)
       to PHP attributes (removed/unsupported as docblock annotations in TYPO3 14,
       see Breaking-107229)
@@ -195,3 +197,14 @@ in isolation (already shown by the combined dry-run picking the v14 branch in th
 table above). No changes were made to this fork's `composer.json` or any lockfile for this
 verification; the throwaway copy lived entirely under `/tmp/opencode/v13_check/` and was
 discarded afterwards.
+
+## Follow-up: TYPO3 14 scheduler rendering fix
+
+The TYPO3 14 scheduler exposed one remaining runtime incompatibility: `StandaloneView`
+was removed, so `SendQueueCommand::generateBody()` failed before rendering queued mails.
+The command now receives `ViewFactoryInterface`, creates a `ViewFactoryData` instance with
+the configured template, partial, and layout paths, and renders the configured template.
+The existing `bodytext` assignment and CLI arguments remain unchanged.
+
+- Docker PHP lint on `SendQueueCommand.php` — passed
+- `git diff --check` — passed
