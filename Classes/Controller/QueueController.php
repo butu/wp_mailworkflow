@@ -9,8 +9,8 @@ use TYPO3\CMS\Backend\Attribute\AsController;
 use TYPO3\CMS\Backend\Template\Components\ButtonBar;
 use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
 use TYPO3\CMS\Core\Http\RedirectResponse;
-use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Imaging\IconFactory;
+use TYPO3\CMS\Core\Imaging\IconSize;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use WEBprofil\WpMailworkflow\Domain\Model\Queue;
@@ -91,7 +91,7 @@ class QueueController extends ActionController
             ->setHref($url)
             ->setTitle('Recipient')
             ->setShowLabelText(true)
-            ->setIcon($this->iconFactory->getIcon('actions-heart', Icon::SIZE_SMALL));
+            ->setIcon($this->iconFactory->getIcon('actions-heart', IconSize::SMALL));
 
         $buttonBar->addButton($list, ButtonBar::BUTTON_POSITION_LEFT, 1);
     }
