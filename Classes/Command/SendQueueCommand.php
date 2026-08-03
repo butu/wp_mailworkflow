@@ -140,7 +140,6 @@ class SendQueueCommand extends Command
         /** @var ServerRequestInterface $request */
         $request = GeneralUtility::makeInstance(ServerRequestFactory::class)->createServerRequest('GET', '/');
         $request = $request->withAttribute('applicationType', 2);
-        $GLOBALS['TYPO3_REQUEST'] = $request;
 
         // ViewFactoryInterface (v13/v14-compatible replacement for StandaloneView):
         $viewFactoryData = new ViewFactoryData(
