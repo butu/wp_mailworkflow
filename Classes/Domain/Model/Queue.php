@@ -31,8 +31,8 @@ class Queue extends AbstractEntity
      * Send at
      *
      * @var \DateTime
-     * @Validate("NotEmpty")
      */
+    #[Validate(['validator' => 'NotEmpty'])]
     protected $sendAt = null;
 
     /**

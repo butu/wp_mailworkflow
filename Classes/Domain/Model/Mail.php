@@ -26,16 +26,16 @@ class Mail extends AbstractEntity
      * Title
      *
      * @var string
-     * @Validate("NotEmpty")
      */
+    #[Validate(['validator' => 'NotEmpty'])]
     protected $title = null;
 
     /**
      * Days to send
      *
      * @var int
-     * @Validate("NotEmpty")
      */
+    #[Validate(['validator' => 'NotEmpty'])]
     protected $daysToSend = 0;
 
     /**
@@ -49,24 +49,24 @@ class Mail extends AbstractEntity
      * Subject
      *
      * @var string
-     * @Validate("NotEmpty")
      */
+    #[Validate(['validator' => 'NotEmpty'])]
     protected $subject = null;
 
     /**
      * Mailtext
      *
      * @var string
-     * @Validate("NotEmpty")
      */
+    #[Validate(['validator' => 'NotEmpty'])]
     protected $mailtext = null;
 
     /**
      * Attachment
      *
      * @var FileReference
-     * @Cascade("remove")
      */
+    #[Cascade(['value' => 'remove'])]
     protected $attachment = null;
 
     /**

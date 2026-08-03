@@ -26,16 +26,16 @@ class MailGroup extends AbstractEntity
      * Title
      *
      * @var string
-     * @Validate("NotEmpty")
      */
+    #[Validate(['validator' => 'NotEmpty'])]
     protected $title = null;
 
     /**
      * Mails
      *
      * @var ObjectStorage<Mail>
-     * @Cascade("remove")
      */
+    #[Cascade(['value' => 'remove'])]
     protected $mails = null;
 
     /**
