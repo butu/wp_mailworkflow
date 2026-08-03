@@ -90,7 +90,7 @@ class QueueController extends ActionController
         $list = $buttonBar->makeLinkButton()
             ->setHref($url)
             ->setTitle('Recipient')
-            ->setShowLabelText('Link')
+            ->setShowLabelText(true)
             ->setIcon($this->iconFactory->getIcon('actions-heart', Icon::SIZE_SMALL));
 
         $buttonBar->addButton($list, ButtonBar::BUTTON_POSITION_LEFT, 1);
