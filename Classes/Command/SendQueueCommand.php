@@ -7,6 +7,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Http\ServerRequestFactory;
@@ -25,9 +26,16 @@ class SendQueueCommand extends Command
 
     private ?QueueRepository $queueRepository = null;
 
+    private ?MailerInterface $mailer = null;
+
     public function injectQueueRepository(QueueRepository $queueRepository): void
     {
         $this->queueRepository = $queueRepository;
+    }
+
+    public function injectMailer(MailerInterface $mailer): void
+    {
+        $this->mailer = $mailer;
     }
 
     public function configure()
@@ -83,7 +91,7 @@ class SendQueueCommand extends Command
                 $filePath = Environment::getPublicPath() . $queue->getMail()->getAttachment()->getOriginalResource()->getPublicUrl();
                 $email->attachFromPath($filePath);
             }
-            $email->send();
+            $this->mailer->send($email);
             $queue->setIsSent(true);
             $queue->setSent(new \DateTime);
             $this->queueRepository->update($queue);

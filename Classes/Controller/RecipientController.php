@@ -93,9 +93,8 @@ class RecipientController extends ActionController
 
     /**
      * action edit
-     *
-     * @IgnoreValidation("recipient")
      */
+    #[IgnoreValidation(['argumentName' => 'recipient'])]
     public function editAction(Recipient $recipient): ResponseInterface
     {
         $moduleTemplate = $this->moduleTemplateFactory->create($this->request);

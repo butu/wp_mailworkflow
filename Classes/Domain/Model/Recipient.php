@@ -24,8 +24,8 @@ class Recipient extends AbstractEntity
      * Start
      *
      * @var \DateTime
-     * @Validate("NotEmpty")
      */
+    #[Validate(['validator' => 'NotEmpty'])]
     protected $start = null;
 
     /**
@@ -46,8 +46,8 @@ class Recipient extends AbstractEntity
      * email
      *
      * @var string
-     * @Validate("NotEmpty")
      */
+    #[Validate(['validator' => 'NotEmpty'])]
     protected $email = null;
 
     /**
