@@ -11,6 +11,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Persistence\Generic\QuerySettingsInterface;
 use TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
+use WEBprofil\WpMailworkflow\Domain\Model\Recipient;
 
 /**
  * This file is part of the "Mail Workflow" Extension for TYPO3 CMS.
@@ -59,6 +60,13 @@ class QueueRepository extends Repository
     {
         $query = $this->createQuery();
         $query->setLimit($limit);
+        return $query->execute();
+    }
+
+    public function findByRecipient(Recipient $recipient): QueryResultInterface|array
+    {
+        $query = $this->createQuery();
+        $query->matching($query->equals('recipient', $recipient));
         return $query->execute();
     }
 
