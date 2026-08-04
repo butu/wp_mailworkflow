@@ -8,8 +8,8 @@ use TYPO3\CMS\Backend\Attribute\AsController;
 use TYPO3\CMS\Backend\Template\Components\ButtonBar;
 use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
 use TYPO3\CMS\Core\Http\RedirectResponse;
-use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Imaging\IconFactory;
+use TYPO3\CMS\Core\Imaging\IconSize;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Annotation\IgnoreValidation;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
@@ -184,8 +184,8 @@ class RecipientController extends ActionController
         $list = $buttonBar->makeLinkButton()
             ->setHref($url)
             ->setTitle('Queue')
-            ->setShowLabelText('Link')
-            ->setIcon($this->iconFactory->getIcon('actions-heart', Icon::SIZE_SMALL));
+            ->setShowLabelText(true)
+            ->setIcon($this->iconFactory->getIcon('actions-heart', IconSize::SMALL));
 
         $buttonBar->addButton($list, ButtonBar::BUTTON_POSITION_LEFT, 1);
     }

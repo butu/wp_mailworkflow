@@ -13,8 +13,9 @@ use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Http\ServerRequestFactory;
 use TYPO3\CMS\Core\Mail\MailMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\View\ViewFactoryData;
+use TYPO3\CMS\Core\View\ViewFactoryInterface;
 use TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager;
-use TYPO3\CMS\Fluid\View\StandaloneView;
 use WEBprofil\WpMailworkflow\Domain\Model\Queue;
 use WEBprofil\WpMailworkflow\Domain\Repository\QueueRepository;
 
@@ -36,6 +37,12 @@ class SendQueueCommand extends Command
     public function injectMailer(MailerInterface $mailer): void
     {
         $this->mailer = $mailer;
+    }
+
+    public function __construct(
+        private readonly ViewFactoryInterface $viewFactory
+    ) {
+        parent::__construct();
     }
 
     public function configure()
@@ -133,16 +140,17 @@ class SendQueueCommand extends Command
         /** @var ServerRequestInterface $request */
         $request = GeneralUtility::makeInstance(ServerRequestFactory::class)->createServerRequest('GET', '/');
         $request = $request->withAttribute('applicationType', 2);
-        $GLOBALS['TYPO3_REQUEST'] = $request;
 
-        // StandaloneView:
-        $view = GeneralUtility::makeInstance(StandaloneView::class);
-        $view->setTemplateRootPaths([GeneralUtility::getFileAbsFileName($input->getArgument('templatesPath'))]);
-        $view->setPartialRootPaths([GeneralUtility::getFileAbsFileName($input->getArgument('partialsPath'))]);
-        $view->setLayoutRootPaths([GeneralUtility::getFileAbsFileName($input->getArgument('layoutsPath'))]);
-        $view->setTemplate($input->getArgument('templateName'));
+        // ViewFactoryInterface (v13/v14-compatible replacement for StandaloneView):
+        $viewFactoryData = new ViewFactoryData(
+            templateRootPaths: [GeneralUtility::getFileAbsFileName($input->getArgument('templatesPath'))],
+            partialRootPaths: [GeneralUtility::getFileAbsFileName($input->getArgument('partialsPath'))],
+            layoutRootPaths: [GeneralUtility::getFileAbsFileName($input->getArgument('layoutsPath'))],
+            request: $request,
+        );
+        $view = $this->viewFactory->create($viewFactoryData);
         $view->assign('bodytext', $bodytext);
-        return $view->render();
+        return $view->render($input->getArgument('templateName'));
     }
 
 }
